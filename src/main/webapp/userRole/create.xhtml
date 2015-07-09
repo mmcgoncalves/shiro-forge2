@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value='#{userRoleBean.id}'/>
+		<f:event type="preRenderView" listener='#{userRoleBean.retrieve}'/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Create User Role"/>
+
+	<ui:define name="header">
+		User Role
+	</ui:define>
+
+	<ui:define name="subheader">
+		<c:choose>
+			<c:when test='#{!empty userRoleBean.id}'>
+				Edit existing User Role
+			</c:when>
+			<c:otherwise>
+				Create a new User Role
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="create">
+			<h:messages globalOnly="true" styleClass="error"/>
+
+			<h:panelGrid columnClasses="label,component,required" columns="3">
+				<h:outputLabel for="userRoleBeanUserRoleRole" value="Role:"/>
+				<h:panelGroup>
+					<h:selectOneMenu converter="#{roleBean.converter}" id="userRoleBeanUserRoleRole" value="#{userRoleBean.userRole.role}">
+						<f:selectItem/>
+						<f:selectItems itemLabel="#{forgeview:display(_item.name)}" itemValue="#{_item}" value="#{roleBean.all}" var="_item"/>
+					</h:selectOneMenu>
+					<h:message for="userRoleBeanUserRoleRole" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="userRoleBeanUserRoleUser" value="User:"/>
+				<h:panelGroup>
+					<h:selectOneMenu converter="#{userBean.converter}" id="userRoleBeanUserRoleUser" value="#{userRoleBean.userRole.user}">
+						<f:selectItem/>
+						<f:selectItems itemLabel="#{forgeview:display(_item.login)}" itemValue="#{_item}" value="#{userBean.all}" var="_item"/>
+					</h:selectOneMenu>
+					<h:message for="userRoleBeanUserRoleUser" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+			</h:panelGrid>
+
+			<div class="buttons">
+				<h:commandLink value="Save" action='#{userRoleBean.update}' styleClass="btn btn-primary"/>
+				<c:choose>
+					<c:when test='#{!empty userRoleBean.id}'>
+						<h:link value="Cancel" outcome="view" styleClass="btn btn-primary">
+							<f:param name="id" value='#{userRoleBean.id}'/>
+						</h:link>
+						<h:commandLink value="Delete" action='#{userRoleBean.delete}' styleClass="btn btn-primary"/>
+					</c:when>
+					<c:otherwise>
+						<h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

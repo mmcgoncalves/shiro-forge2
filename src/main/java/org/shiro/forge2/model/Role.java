@@ -22,9 +22,9 @@ import org.hibernate.validator.constraints.NotBlank;
       , catalog = "shiro_forge2")
 public class Role implements java.io.Serializable
 {
-   
-	private static final long serialVersionUID = 1L;
-	private Integer id;
+
+   private static final long serialVersionUID = 1L;
+   private Integer id;
    @NotNull(message = "Informe nome")
    @NotBlank
    private String name;
